@@ -6,6 +6,7 @@ public class Kaboom : MonoBehaviour
 {
 
     public GameObject explosion;
+    public float health = 2;
     
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,12 @@ public class Kaboom : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+            health--;
+        }
+
+        if(health <= 0)
+        {
+            Destroy(this.gameObject);
         }
     }
 }

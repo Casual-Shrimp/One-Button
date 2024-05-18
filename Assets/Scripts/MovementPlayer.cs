@@ -14,7 +14,7 @@ public class MovementPlayer : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        transform.position = new Vector2(0, 0);
+        transform.position = new Vector3(0, 0, 0);
     }
 
   

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 604428366112033804}
   - component: {fileID: 9089265955403794360}
   - component: {fileID: 3384424563699788427}
-  - component: {fileID: 2307276307365985603}
-  m_Layer: 6
+  - component: {fileID: 5480214627161851295}
+  m_Layer: 0
   m_Name: Explosion
   m_TagString: Explosion
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aa9749797b0fb34db631e2be1e56467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!58 &2307276307365985603
+--- !u!58 &5480214627161851295
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
