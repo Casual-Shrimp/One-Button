@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MovementPlayer : MonoBehaviour
 {
-    const float Speed = 5;
+    const float Speed = 0.1f;
     public float mouseX;
     public float mouseY;
     public CharacterController controller;
@@ -25,8 +25,9 @@ public class MovementPlayer : MonoBehaviour
 
         Vector3 move = transform.right * mouseX + transform.up * mouseY;
 
-        controller.Move(Speed * move *  Time.deltaTime);
-
+        transform.Translate(move * Speed);
 
     }
+
+
 }

@@ -6,12 +6,11 @@ public class Kaboom : MonoBehaviour
 {
 
     public GameObject explosion;
-    public float health = 2;
-    
+    public float health = 1;
     // Start is called before the first frame update
     void Start()
     {
-        
+      
     }
 
     // Update is called once per frame
@@ -28,4 +27,11 @@ public class Kaboom : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        health--;
+        Destroy(collision.gameObject);
+    }
+
+
 }
