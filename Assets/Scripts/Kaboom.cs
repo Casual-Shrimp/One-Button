@@ -16,15 +16,11 @@ public class Kaboom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
-            health--;
-        }
 
         if(health <= 0)
         {
-            Destroy(this.gameObject);
+            Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+            Destroy(this.gameObject, 1f);
         }
     }
 
@@ -32,8 +28,15 @@ public class Kaboom : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        health--;
-        Destroy(collision.gameObject);
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            health--;
+            Destroy(collision.gameObject);
+        }
+       if(collision.gameObject.CompareTag("Explosion"))
+        {
+            health--;
+        }
     }
 
 

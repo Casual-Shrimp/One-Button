@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     Rigidbody2D rb;
     Transform target;
     Vector2 moveDirection;
+    private GameObject player;
+    private bool hasLineOfSight = false;
 
     // Start is called before the first frame update
     void Start()
@@ -17,31 +19,51 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         target = GameObject.Find("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
+      
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(target)
+        if (player != null)
         {
-          
-            Vector3 direction = (target.position - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            rb.rotation = angle;
-            moveDirection = direction;
+            if (hasLineOfSight)
+            {
+
+                Vector3 direction = (target.position - transform.position).normalized;
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                rb.rotation = angle;
+                moveDirection = direction;
+            }
         }
-        if(target == null && rb != null)
+        if (hasLineOfSight == false || player == null)
         {
-            rb.velocity = rb.velocity / 1.0100f; 
+            rb.velocity = rb.velocity / 1.0099f;
+            rb.freezeRotation = true;
         }
+
     }
 
     private void FixedUpdate()
     {
-        if(target)
+        if (player != null)
         {
-            rb.velocity = new Vector2(moveDirection.x, moveDirection.y) * speed;
+            RaycastHit2D ray = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
+            if (ray.collider != null)
+            {
+                hasLineOfSight = ray.collider.CompareTag("Player");
+                if (hasLineOfSight)
+                {
+                    rb.velocity = new Vector2(moveDirection.x, moveDirection.y) * speed;
+                    Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.green);
+                }
+                else
+                {
+                    Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red);
+                }
+            }
         }
     }
 
