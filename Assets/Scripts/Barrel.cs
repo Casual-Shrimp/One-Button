@@ -6,12 +6,10 @@ public class Barrel : MonoBehaviour
 {
 
     public GameObject explosion;
-   
- 
+
     // Start is called before the first frame update
     void Start()
     {
-
         
     }
 

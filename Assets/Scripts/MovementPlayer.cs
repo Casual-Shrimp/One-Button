@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MovementPlayer : MonoBehaviour
 {
-    const float Speed = 0.1f;
+    const float Speed = 7f;
     public float inputX;
     public float inputY;
     Rigidbody2D rb;
@@ -28,7 +29,8 @@ public class MovementPlayer : MonoBehaviour
 
         Vector3 move = transform.right * inputX + transform.up * inputY;
 
-        transform.Translate(move * Speed);
+
+        transform.Translate(move * Speed * Time.deltaTime);
 
     }
 

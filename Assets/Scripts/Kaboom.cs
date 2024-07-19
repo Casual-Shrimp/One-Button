@@ -20,20 +20,20 @@ public class Kaboom : MonoBehaviour
         if(health <= 0)
         {
             Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
-            Destroy(this.gameObject, 1f);
+            Destroy(this.gameObject);
         }
     }
 
     
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if(collision.gameObject.CompareTag("Enemy"))
+        if(other.gameObject.CompareTag("Enemy"))
         {
             health--;
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
         }
-       if(collision.gameObject.CompareTag("Explosion"))
+       if(other.gameObject.CompareTag("Explosion"))
         {
             health--;
         }
