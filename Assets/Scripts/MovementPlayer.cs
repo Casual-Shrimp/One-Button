@@ -40,7 +40,7 @@ public class MovementPlayer : MonoBehaviour
         {
             rb.velocity = new Vector2(0, 0);
         }
-    }
+    }   
 
 
 }
