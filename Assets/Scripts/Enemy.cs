@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -12,6 +13,8 @@ public class Enemy : MonoBehaviour
     Vector2 moveDirection;
     private GameObject player;
     private bool hasLineOfSight = false;
+    public SightCircle SightCircle;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -20,38 +23,31 @@ public class Enemy : MonoBehaviour
         rb.gravityScale = 0f;
         target = GameObject.Find("Player").transform;
         player = GameObject.FindGameObjectWithTag("Player");
-      
+                
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player != null)
+        if (SightCircle.canSee)
         {
-            if (hasLineOfSight)
-            {
-
-                Vector3 direction = (target.position - transform.position).normalized;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                rb.rotation = angle;
-                moveDirection = direction;
-            }
+            InSight();    
         }
-        if (hasLineOfSight == false || player == null)
+        if (hasLineOfSight == false || !player)
         {
             rb.velocity = rb.velocity / 1.0099f;
             rb.freezeRotation = true;
         }
-
     }
 
     private void FixedUpdate()
     {
-        if (player != null)
+        if (player)
         {
             RaycastHit2D ray = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
-            if (ray.collider != null)
+            if (ray.collider)
             {
                 hasLineOfSight = ray.collider.CompareTag("Player");
                 if (hasLineOfSight)
@@ -65,6 +61,23 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void InSight()
+    {
+        if (player != null)
+        {
+            if (hasLineOfSight)
+            {
+
+                Vector3 direction = (target.position - transform.position).normalized;
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                rb.rotation = angle;
+                moveDirection = direction;
+              
+            }
+        }
+        
     }
 
 

@@ -27,7 +27,11 @@ public class Barrel : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
-        Destroy(this.gameObject);
+        if (other != other.gameObject.CompareTag("SightCircle"))
+        {
+            Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+            Destroy(this.gameObject);
+        }
+   
     }
 }
