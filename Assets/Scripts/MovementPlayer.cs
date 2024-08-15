@@ -6,10 +6,10 @@ using UnityEngine.EventSystems;
 
 public class MovementPlayer : MonoBehaviour
 {
-    const float Speed = 7f;
+    private float speed;
     public float inputX;
     public float inputY;
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
     
     
     void Start()
@@ -17,7 +17,7 @@ public class MovementPlayer : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
         Cursor.lockState = CursorLockMode.Locked;
-        transform.position = new Vector3(0, 0, 0);
+       
     }
 
   
@@ -27,20 +27,27 @@ public class MovementPlayer : MonoBehaviour
         inputX = Input.GetAxis("Horizontal");
         inputY = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * inputX + transform.up * inputY;
+       // Vector3 move = transform.right * inputX + transform.up * inputY;
+        
+       // transform.Translate(move * speed * Time.deltaTime);
 
-
-        transform.Translate(move * Speed * Time.deltaTime);
-
+        rb.velocity = new Vector2(inputX * speed * Time.deltaTime, inputY * speed * Time.deltaTime);
+        
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed = 220f;
+        }
+        else
+        {
+            speed = 120f;
+        }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Wall"))
         {
             rb.velocity = new Vector2(0, 0);
         }
-    }   
-
-
+    }
 }

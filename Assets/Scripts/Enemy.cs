@@ -1,63 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float speed = 6f;
-    Rigidbody2D rb;
-    Transform target;
-    Vector2 moveDirection;
-    private GameObject player;
-    private bool hasLineOfSight = false;
-    public SightCircle SightCircle;
+    [SerializeField] float speed = 3f;
+    Rigidbody2D _rb;
+    Transform _target;
+    Vector2 _moveDirection;
+    private float health = 40f;
+    private GameObject _player;
+    private bool _hasLineOfSight;
+    public SightCircle sightCircle;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f;
-        target = GameObject.Find("Player").transform;
-        player = GameObject.FindGameObjectWithTag("Player");
-                
-
-
+        _rb = GetComponent<Rigidbody2D>();
+        _rb.gravityScale = 0f;
+        _target = GameObject.Find("Player").transform;
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
-    {
-        if (SightCircle.canSee)
-        {
-            InSight();    
-        }
-        if (hasLineOfSight == false || !player)
-        {
-            rb.velocity = rb.velocity / 1.0099f;
-            rb.freezeRotation = true;
-        }
+    { 
+        InSight();
+        LostSight();
+        EnemyHealth();
     }
 
     private void FixedUpdate()
     {
-        if (player)
+        if (_player)
         {
-            RaycastHit2D ray = Physics2D.Raycast(transform.position, player.transform.position - transform.position);
+            RaycastHit2D ray = Physics2D.Raycast(transform.position, _player.transform.position - transform.position);
             if (ray.collider)
             {
-                hasLineOfSight = ray.collider.CompareTag("Player");
-                if (hasLineOfSight)
+                _hasLineOfSight = ray.collider.CompareTag("Player");
+                if (_hasLineOfSight)
                 {
-                    rb.velocity = new Vector2(moveDirection.x, moveDirection.y) * speed;
-                    Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.green);
+                   
+                    Debug.DrawRay(transform.position, _player.transform.position - transform.position, Color.green);
                 }
                 else
                 {
-                    Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red);
+                    Debug.DrawRay(transform.position, _player.transform.position - transform.position, Color.red);
                 }
             }
         }
@@ -65,20 +53,48 @@ public class Enemy : MonoBehaviour
 
     private void InSight()
     {
-        if (player != null)
+        if (_player)
         {
-            if (hasLineOfSight)
+            if (_hasLineOfSight && sightCircle.canSee)
             {
-
-                Vector3 direction = (target.position - transform.position).normalized;
+                _rb.velocity = new Vector2(_moveDirection.x, _moveDirection.y) * speed;
+                Vector3 direction = (_target.position - transform.position).normalized;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                rb.rotation = angle;
-                moveDirection = direction;
+                _rb.rotation = angle;
+                _moveDirection = direction;
               
             }
         }
         
     }
 
+    private void LostSight()
+    {
+        if (_hasLineOfSight == false || !_player || sightCircle.canSee == false)
+        {
+            _rb.velocity  /= 1.0999f;
+            _rb.freezeRotation = true;
+        }
+    }
 
+    private void EnemyHealth()
+    {
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("LightBeam"))
+        {
+            health -=0.2f;
+            speed = 1.3f;
+        }
+        else
+        {
+            speed = 3f;
+        }
+    }
 }
