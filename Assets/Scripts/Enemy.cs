@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Enemy : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Enemy : MonoBehaviour
     private GameObject _player;
     private bool _hasLineOfSight;
     public SightCircle sightCircle;
+    public Light2D _glare;
     
 
     // Start is called before the first frame update
@@ -20,6 +22,7 @@ public class Enemy : MonoBehaviour
         _rb.gravityScale = 0f;
         _target = GameObject.Find("Player").transform;
         _player = GameObject.FindGameObjectWithTag("Player");
+        _glare.intensity = 1f;
     }
 
     // Update is called once per frame
@@ -90,11 +93,16 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.CompareTag("LightBeam"))
         {
             health -=0.2f;
-            speed = 1.3f;
+            speed = 0.4f;
+            _glare.enabled = true;
+            _glare.intensity *= 1.1f;
+            Debug.Log(_glare.intensity);
+            
         }
         else
         {
-            speed = 3f;
+            speed = 2.5f;
+            _glare.enabled = false;
         }
     }
 }

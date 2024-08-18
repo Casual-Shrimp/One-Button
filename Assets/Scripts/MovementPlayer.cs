@@ -10,14 +10,15 @@ public class MovementPlayer : MonoBehaviour
     public float inputX;
     public float inputY;
     private Rigidbody2D rb;
+    public Flashlight flashlight;
     
     
     void Start()
     {
+        flashlight = GameObject.Find("Flashlight").GetComponent<Flashlight>();
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
         Cursor.lockState = CursorLockMode.Locked;
-       
     }
 
   
@@ -35,11 +36,11 @@ public class MovementPlayer : MonoBehaviour
         
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            speed = 220f;
+            speed = 300f;
         }
         else
         {
-            speed = 120f;
+            speed = 180f;
         }
     }
 
@@ -48,6 +49,15 @@ public class MovementPlayer : MonoBehaviour
         if(collision.gameObject.CompareTag("Wall"))
         {
             rb.velocity = new Vector2(0, 0);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Battery"))
+        {
+            flashlight.batteryCount += 1;
+            Destroy(other.gameObject);
         }
     }
 }

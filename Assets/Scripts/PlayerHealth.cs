@@ -6,11 +6,11 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     
-    [SerializeField] float health = 5f;
+    [SerializeField] float health;
     // Start is called before the first frame update
     void Start()
     {
-      
+      health = 5f;
     }
 
     // Update is called once per frame
