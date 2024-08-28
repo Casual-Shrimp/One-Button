@@ -447,7 +447,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.336
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000c9322b257f57878b
@@ -497,7 +497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7463902009487310627
 Transform:
   m_ObjectHideFlags: 0
@@ -584,6 +584,5 @@ MonoBehaviour:
   beam: {fileID: 0}
   beamCollision: {fileID: 4891748419217556061}
   light: {fileID: 1915426173791011472}
-  Battery: 100
   batteryCount: 0
   percentage: {fileID: 0}

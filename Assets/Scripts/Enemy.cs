@@ -96,8 +96,6 @@ public class Enemy : MonoBehaviour
             speed = 0.4f;
             _glare.enabled = true;
             _glare.intensity *= 1.1f;
-            Debug.Log(_glare.intensity);
-            
         }
         else
         {

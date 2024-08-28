@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -10,9 +11,11 @@ public class Flashlight : MonoBehaviour
     public SpriteRenderer beam;
     public PolygonCollider2D beamCollision;
     public Light2D light;
-    public float Battery = 100f;
+    private float Battery = 100f;
     public int batteryCount;
     public  BatteryPercentage percentage;
+    private bool isFlickering = false;
+    private float timeDelay;
     
     // Start is called before the first frame update
     void Start()
@@ -29,13 +32,12 @@ public class Flashlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        percentage.SetBattery(Battery);
+        percentage.SetBattery(Battery);    
         _mouseX = Input.GetAxis("Mouse X");
-        Debug.Log(batteryCount);
         RechargeFlashlight();
         transform.RotateAround(player.transform.position, Vector3.back,_mouseX * _lookspeed * Time.deltaTime );
-        if (Input.GetButton("Fire1") && Battery >= 0)
+        BatteryStatus();
+        if (Input.GetKey(KeyCode.Mouse0) && Battery >= 0)
         {
             beam.enabled = true;
             beamCollision.enabled = true;
@@ -64,14 +66,37 @@ public class Flashlight : MonoBehaviour
 
     private void RechargeFlashlight()
     {
-        if (batteryCount > 0 && Input.GetKeyDown(KeyCode.F) && lightBeam)
+        if (batteryCount > 0 && Input.GetKeyDown(KeyCode.F) && Battery > 0)
         {
             Battery = 100f;
             batteryCount--;
         }
         /*
         Here will be put code to tell the Player to go find a recharge 
-        station if the flashlight completly runs out of battery
+        station if the flashlight completely runs out of battery
          */
+    }
+    //Lets the player know that the flashlight is almost out of battery by starting to flicker
+    private void BatteryStatus()
+    {
+        if (Battery <= 30)
+        {
+            if (isFlickering == false)
+            {
+                StartCoroutine(FlickeringLight());
+            }
+        }
+    }
+
+    IEnumerator FlickeringLight()
+    {
+        isFlickering = true;
+        light.enabled = false;
+        timeDelay = Random.Range(0.01f, 0.1f);
+        yield return new WaitForSeconds(timeDelay);
+        light.enabled = true;
+        timeDelay = Random.Range(0.01f, 0.8f);
+        yield return new WaitForSeconds(timeDelay);
+        isFlickering = false;
     }
 }
