@@ -37,6 +37,18 @@ public class Flashlight : MonoBehaviour
         RechargeFlashlight();
         transform.RotateAround(player.transform.position, Vector3.back,_mouseX * _lookspeed * Time.deltaTime );
         BatteryStatus();
+        
+
+        if (Battery <= 0)
+        {
+            light.enabled = false;
+            lightBeam.SetActive(false);
+            
+        }
+    }
+    
+    void FixedUpdate()
+    {
         if (Input.GetKey(KeyCode.Mouse0) && Battery >= 0)
         {
             beam.enabled = true;
@@ -54,13 +66,6 @@ public class Flashlight : MonoBehaviour
             light.intensity = 0.8f;
             light.pointLightInnerRadius = 3.3f;
             light.pointLightOuterRadius = 4.15f;
-        }
-
-        if (Battery <= 0)
-        {
-            light.enabled = false;
-            lightBeam.SetActive(false);
-            
         }
     }
 

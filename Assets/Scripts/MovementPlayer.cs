@@ -32,16 +32,21 @@ public class MovementPlayer : MonoBehaviour
         
        // transform.Translate(move * speed * Time.deltaTime);
 
-        rb.velocity = new Vector2(inputX * speed * Time.deltaTime, inputY * speed * Time.deltaTime);
+        
         
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            speed = 300f;
+            speed = 3.5f;
         }
         else
         {
-            speed = 180f;
+            speed = 2f;
         }
+    }
+    
+    void FixedUpdate()
+    {
+        rb.velocity = new Vector2(inputX , inputY ) * speed;
     }
 
     private void OnCollisionStay2D(Collision2D collision)
