@@ -10,7 +10,7 @@ public class Flashlight : MonoBehaviour
     public GameObject lightBeam;
     public SpriteRenderer beam;
     public PolygonCollider2D beamCollision;
-    public Light2D light;
+    public new Light2D light;
     private float Battery = 100f;
     public int batteryCount;
     public  BatteryPercentage percentage;
@@ -56,7 +56,7 @@ public class Flashlight : MonoBehaviour
             light.intensity = 1.4f;
             light.pointLightInnerRadius = 5.15f;
             light.pointLightOuterRadius = 6.15f;
-            Battery -= 0.05f;
+            Battery -= 0.1f;
             
         }
         else
